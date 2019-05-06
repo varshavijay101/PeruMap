@@ -3,9 +3,9 @@
 ### Started by REBlake 5/2/2019
 ########################################################
 
-library(shiny) ; library(leaflet)
+library(shiny) ; library(leaflet) 
 
-source("leaflet_peru.R")
+source("global.R")
 
 # Set up your panels for the UI
 tabpan_peru <- tabPanel(title = "Peru",
@@ -69,34 +69,34 @@ server <- function(input, output) {
                    leafletProxy("map_peru") %>% clearShapes() 
                    }else{
                    leafletProxy("map_peru") %>% 
-                   addPolygons(data = ecoregions, color ="white", weight = 0, 
-                               fill = TRUE, fillColor = ~pal3(OBJECTID), 
-                               fillOpacity = .5, popup = ~as.character(ECO_NAME), 
-                               group = "Ecoregions"
-                               )
+                   addGeoJSON(geojson = ecoregions, color ="white", weight = 0, 
+                              fill = TRUE, #fillColor = col_pal, 
+                              fillOpacity = .5,# popup = ~as.character(popup),
+                              group = "Ecoregions"
+                              )
                    }})
          
            observe({if(!(2 %in% input$checkGroup)){
                     leafletProxy("map_peru") %>% clearShapes()    
                     }else{
                     leafletProxy("map_peru") %>%
-                    addPolygons(data = adminperu, color = "white", weight = 3.5,
+                    addGeoJSON(geojson = adminperu, color = "white", weight = 3.5,
                                 fill = FALSE, fillColor = "gray", fillOpacity = 1,
-                                group = "Administrative Regions"
-                                )
+                                 group = "Administrative Regions"
+                                 )
                     }})
            
            observe({if(!(3 %in% input$checkGroup)){
-                    leafletProxy("map_peru") %>% clearShapes()    
+                    leafletProxy("map_peru") %>% clearShapes()
                     }else{
                     leafletProxy("map_peru") %>%
-                    addPolygons(data = deforestoilpalm, color = "orange", weight = 0.2,
-                                fill = TRUE, fillColor = ~pal(gridcode), fillOpacity = 1,
-                                label = ~as.character(gridcode),
-                                group = "Oil Palm Deforestation"
-                                )
+                    addGeoJSON(geojson = deforestoilpalm, color = "orange", weight = 0.2,
+                                 fill = TRUE, #fillColor = col_pal, fillOpacity = 1,
+                                # label = ~as.character(gridcode), 
+                                 group = "Oil Palm Deforestation"
+                                 )
                     }})
-           
+
            
           
           output$map_globe <- renderLeaflet({

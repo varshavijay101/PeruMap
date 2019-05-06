@@ -1,49 +1,77 @@
-# save as geojson objects
-library(rmapshaper)
+#########################################
+### Peru Map   5/6/2019
+### save shapefiles as geojson objects
+#########################################
+### load libraries
+library(rmapshaper) ; library(geojsonio) ; library (sf) ; library(tidyverse) 
 
-deforestoilpalm <- st_read('data/deforestoilpalmWGS.shp')
-pal <- colorNumeric("Oranges", deforestoilpalm$gridcode)
+### load files
+deforestoilpalm <- st_read('/nfs/vvijay-data/leafletperu/deforestoilpalmWGS.shp')
 
-longtermrisk <- st_read('data/riskmapbinaryMULTIPART.shp')
+longtermrisk <- st_read('/nfs/vvijay-data/leafletperu/riskmapbinaryMULTIPART.shp')
+
 shorttermrisk <- longtermrisk %>% filter(gridcode == 1)
 
-pa <- st_read('data/pa.shp')
-indigenous <- st_read('data/indigenousWGS.shp')
+pa <- st_read('/nfs/vvijay-data/leafletperu/pa.shp')
+
+indigenous <- st_read('/nfs/vvijay-data/leafletperu/indigenousWGS.shp')
+
+paddd <- st_read('/nfs/vvijay-data/leafletperu/paddd.shp')
+
+ecoregions <- st_read('/nfs/vvijay-data/leafletperu/ecoregionsWGS.shp')
+ecoregions <- sf::st_cast(ecoregions, "POLYGON")
+
+adminperu <- st_read('/nfs/vvijay-data/leafletperu/Departamento.shp')
+
+### add color palettes and pop-ups
+pal <- colorNumeric("Oranges", deforestoilpalm$gridcode) 
+deforestoilpalm <- deforestoilpalm %>% 
+                   mutate(col_pal = pal(gridcode))
+
+pal3 <- colorNumeric(rainbow(13), ecoregions$OBJECTID) 
+ecoregions <- ecoregions %>% 
+              mutate(col_pal = pal3(OBJECTID))
+
 pacontent <- paste(sep = "<br/>", pa$NAME, pa$DESIG_ENG,
                    paste("IUCN Category: ", pa$IUCN_CAT))
-paddd <- st_read('data/paddd.shp')
+pa <- pa %>% mutate(popup = pacontent)
+
 padddcontent <- paste(sep = "<br/>", paddd$Protected,
                       paste("PADDD Year: ", paddd$Year_PADDD))
+paddd <- paddd %>% mutate(popup = padddcontent)
 
-ecoregions <- st_read('data/ecoregionsWGS.shp')
-ecoregions <- sf::st_cast(ecoregions, "POLYGON")
-pal3 <- colorNumeric(rainbow(13), ecoregions$OBJECTID)
-adminperu <- st_read('data/Departamento.shp')
-
+### simplify files
 deforestoilpalm %>% 
-  rmapshaper::ms_simplify() %>%
-  st_write("geojsons/deforestoilpalm.geojson")
+  rmapshaper::ms_simplify(keep = 0.10, keep_shapes = TRUE) %>%
+  geojson_list() %>% geojson_write(file = "./geojsons/deforestoilpalm.geojson")
 
 longtermrisk %>% 
-  rmapshaper::ms_simplify() %>%
-  st_write("geojsons/longtermreisk.geojson")
+  rmapshaper::ms_simplify(keep = 0.10, keep_shapes = TRUE) %>%
+  geojson_list() %>% geojson_write(file = "./geojsons/longtermrisk.geojson")
+
+shorttermrisk %>% 
+  rmapshaper::ms_simplify(keep = 0.10, keep_shapes = TRUE) %>%
+  geojson_list("geojsons/shorttermrisk.geojson")
 
 pa %>% 
-  rmapshaper::ms_simplify() %>%
-  st_write("geojsons/pa.geojson")
+  rmapshaper::ms_simplify(keep = 0.10, keep_shapes = TRUE) %>%
+  geojson_list("geojsons/pa.geojson")
 
 indigenous %>% 
-  # rmapshaper::ms_simplify() %>%
-  st_write("geojsons/indigenous_nonsimple.geojson")
+  rmapshaper::ms_simplify(keep = 0.10, keep_shapes = TRUE) %>%
+  geojson_list("geojsons/indigenous_nonsimple.geojson")
 
 paddd %>% 
-  rmapshaper::ms_simplify() %>%
-  st_write("geojsons/paddd.geojson")
+  rmapshaper::ms_simplify(keep = 0.10, keep_shapes = TRUE) %>%
+  geojson_list("geojsons/paddd.geojson")
 
 ecoregions %>% 
-  rmapshaper::ms_simplify() %>%
-  st_write("geojsons/ecoregions.geojson")
+  rmapshaper::ms_simplify(keep = 0.10, keep_shapes = TRUE) %>%
+  geojson_list("geojsons/ecoregions.geojson")
 
 adminperu %>% 
-  rmapshaper::ms_simplify() %>%
-  st_write("geojsons/admin.geojson")
+  rmapshaper::ms_simplify(keep = 0.10, keep_shapes = TRUE) %>%
+  geojson_list("geojsons/admin.geojson")
+
+
+
