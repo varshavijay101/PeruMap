@@ -8,36 +8,32 @@ library(dplyr) ; library(htmlwidgets) ; library(htmltools) ; library(fs) ;
 library(jsonlite)
 
 ## Load data layers
-gjs_files <- fs::dir_ls("geojsons")
+deforestoilpalm <- st_read("geojsons/deforestoilpalm.geojson")
 
-layer_list <- gjs_files %>% purrr::map(~readLines(.x))
-layer_list <- layer_list %>% purrr::map(~paste(.x, collapse = "\n")) 
-names(layer_list) <- basename(gjs_files)
+longtermrisk <- st_read("geojsons/longtermrisk.geojson")
 
+shorttermrisk <- st_read("geojsons/shorttermrisk.geojson")
 
-deforestoilpalm <- layer_list[[2]]
+pa <- st_read("geojsons/pa.geojson")
 
-longtermrisk <- layer_list[[5]]
+indigenous <- st_read("geojsons/indigenous_nonsimple.geojson")
 
-shorttermrisk <- layer_list[[8]]
+paddd <- st_read("geojsons/paddd.geojson")
 
-pa <- layer_list[[6]]
+ecoregions <- st_read("geojsons/ecoregions.geojson")
 
-indigenous <- layer_list[[4]]
-
-paddd <- layer_list[[7]]
-
-ecoregions <- layer_list[[3]]
-
-adminperu <- layer_list[[1]]
+adminperu <- st_read("geojsons/admin.geojson")
 
 ## Add palettes and popups
-deforestoilpalm$style <- list(color = "orange", weight = 0.2, fill = TRUE, fillOpacity = 1)
 pal <- colorNumeric("Oranges", deforestoilpalm$gridcode)
-deforestoilpalm$features <- lapply(deforestoilpalm$features, function(feat) {
-                                   feat$properties$style <- list(fillColor = ~pal(gridcode))
-                                   feat
-                                   })
+
+pal3 <- colorNumeric(rainbow(13), ecoregions$OBJECTID)
+ 
+pacontent <- paste(sep = "<br/>", pa$NAME, pa$DESIG_ENG,
+                   paste("IUCN Category: ", pa$IUCN_CAT))
+ 
+padddcontent <- paste(sep = "<br/>", paddd$Protected,
+                      paste("PADDD Year: ", paddd$Year_PADDD))
 
 # Create an empty leaflet map and set zoom controls to prevent zooming outside study area
 make_peru_map <- function(){
@@ -47,8 +43,8 @@ make_peru_map <- function(){
                                           group= "Esri World Imagery") %>%
                          addMiniMap(zoomLevelOffset = -4) %>% # Add minimap for reference
                          addScaleBar() %>% # Add scale bar
-                         setView(lng = -71.622, lat = -9.0, zoom=6)
-                 
+                         setView(lng = -71.622, lat = -9.0, zoom=5) 
+
                  return(pmap)
                  }
 
