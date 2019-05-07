@@ -3,10 +3,10 @@
 ### save shapefiles as geojson objects
 #########################################
 ### load libraries
-library(rmapshaper) ; library(geojsonio) ; library (sf) ; library(tidyverse) 
+library(rmapshaper) ; library(geojsonio) ; library (sf) ; library(raster)
 
 ### load files
-deforestoilpalm <- st_read('/nfs/vvijay-data/leafletperu/deforestoilpalmWGS.shp')
+deforestoilpalm <- raster('/nfs/vvijay-data/leafletperu/deforestoilpalm.tif')
 
 longtermrisk <- st_read('/nfs/vvijay-data/leafletperu/riskmapbinaryMULTIPART.shp')
 
@@ -23,33 +23,17 @@ ecoregions <- sf::st_cast(ecoregions, "POLYGON")
 
 adminperu <- st_read('/nfs/vvijay-data/leafletperu/Departamento.shp')
 
-### add color palettes and pop-ups
-# pal <- colorNumeric("Oranges", deforestoilpalm$gridcode) 
-# deforestoilpalm <- deforestoilpalm %>% 
-#                    mutate(col_pal = pal(gridcode))
-# 
-# pal3 <- colorNumeric(rainbow(13), ecoregions$OBJECTID) 
-# ecoregions <- ecoregions %>% 
-#               mutate(col_pal = pal3(OBJECTID))
-# 
-# pacontent <- paste(sep = "<br/>", pa$NAME, pa$DESIG_ENG,
-#                    paste("IUCN Category: ", pa$IUCN_CAT))
-# pa <- pa %>% mutate(popup = pacontent)
-# 
-# padddcontent <- paste(sep = "<br/>", paddd$Protected,
-#                       paste("PADDD Year: ", paddd$Year_PADDD))
-# paddd <- paddd %>% mutate(popup = padddcontent)
 
 ### simplify files
-deforestoilpalm %>% 
+deforestoilpalm %>% aggregate(fact = 4, filename = "/nfs/vvijay-data/leafletperu/deforestoilpalm_factor4.tif")
+
+deforestoilpalm
   rmapshaper::ms_simplify(keep = 0.05, keep_shapes = TRUE) %>%
   st_write("geojsons/deforestoilpalm.geojson")
-  # geojson_list() %>% geojson_write(file = "./geojsons/deforestoilpalm.geojson")
 
 longtermrisk %>% 
   rmapshaper::ms_simplify(keep = 0.05, keep_shapes = TRUE) %>%
   st_write("geojsons/longtermrisk.geojson")
-  # geojson_list() %>% geojson_write(file = "./geojsons/longtermrisk.geojson")
 
 shorttermrisk %>% 
   rmapshaper::ms_simplify(keep = 0.05, keep_shapes = TRUE) %>%

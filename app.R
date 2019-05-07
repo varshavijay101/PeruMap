@@ -5,31 +5,31 @@
 
 library(shiny) ; library(leaflet) 
 
-source("global.R")
+#source("global.R")
 
 # Set up your panels for the UI
 tabpan_peru <- tabPanel(title = "Peru",
-                        leafletOutput(outputId = "map_peru", width = "100%", height = "68vh") ,
+                        leafletOutput(outputId = "map_peru", width = "100%", height = "72vh") ,
                         absolutePanel(top = 240, right = 5, left = "auto", draggable = TRUE, fixed = TRUE,
                                       width = 330, height = "auto",
                                       checkboxGroupInput("checkGroup", label = h4(tags$span("Data Layers", style = "color: white;")),
                                                          choiceNames = list(tags$span("Eco Regions", style = "color: white;"),
+                                                                            tags$span("Long-term Risk Forests", style = "color: white;"),
                                                                             tags$span("Administrative Regions", style = "color: white;"),
                                                                             tags$span("Oil Palm Deforestation", style = "color: white;"),
                                                                             tags$span("Protected Areas", style = "color: white;"),
                                                                             tags$span("Indigenous Territories", style = "color: white;"),
                                                                             tags$span("Former Protected Areas (PADDD)", style = "color: white;"),
-                                                                            tags$span("Long-term Risk Forests", style = "color: white;"),
                                                                             tags$span("Short-term Risk Forests", style = "color: white;")
                                                                             ),
                                                          choiceValues = c(1, 2, 3, 4, 5, 6, 7, 8),
-                                                         selected = c(2)
+                                                         selected = c(3)
                                                          )
                                       )
                         )
 
 # tabpan_globe <- tabPanel(title = "Global",
-#                          leafletOutput(outputId = "map_globe", width = "100%", height = "68vh"),
+#                          leafletOutput(outputId = "map_globe", width = "100%", height = "72vh"),
 #                          absolutePanel(top = 100, right = 10, left = "auto", draggable = TRUE, fixed = TRUE,
 #                                        width = 330, height = "auto",
 #                                        checkboxGroupInput("checkGroup", label = h4("Data Layers"),
@@ -82,7 +82,16 @@ server <- function(input, output) {
                                group = "Ecoregions"
                                )
                    }})
-           observe({if(!(2 %in% input$checkGroup)){
+          observe({if(!(2 %in% input$checkGroup)){
+                   leafletProxy("map_peru") %>% clearGroup("Long-term Risk Forests")
+                   }else{
+                   leafletProxy("map_peru") %>% clearGroup("Long-term Risk Forests") %>% 
+                   addPolygons(data = longtermrisk, color = "white", weight = 0,
+                               fill = TRUE, fillColor = "papayawhip", fillOpacity = .6,
+                               group = "Long-term Risk Forests"
+                               )
+                   }}) 
+          observe({if(!(3 %in% input$checkGroup)){
                     leafletProxy("map_peru") %>% clearGroup("Administrative Regions")
                     }else{
                     leafletProxy("map_peru") %>% clearGroup("Administrative Regions") %>% 
@@ -91,7 +100,7 @@ server <- function(input, output) {
                                 group = "Administrative Regions"
                                 )
                     }})
-           observe({if(!(3 %in% input$checkGroup)){
+           observe({if(!(4 %in% input$checkGroup)){
                     leafletProxy("map_peru") %>% clearGroup("Oil Palm Deforestation")
                     }else{
                     leafletProxy("map_peru") %>%  clearGroup("Oil Palm Deforestation") %>% 
@@ -101,7 +110,7 @@ server <- function(input, output) {
                                 group = "Oil Palm Deforestation"
                                 )
                     }})
-           observe({if(!(4 %in% input$checkGroup)){
+           observe({if(!(5 %in% input$checkGroup)){
                     leafletProxy("map_peru") %>% clearGroup("Protected Areas")
                     }else{
                     leafletProxy("map_peru") %>% clearGroup("Protected Areas") %>% 
@@ -111,7 +120,7 @@ server <- function(input, output) {
                                 group = "Protected Areas"
                                 )
                     }})
-           observe({if(!(5 %in% input$checkGroup)){
+           observe({if(!(6 %in% input$checkGroup)){
                     leafletProxy("map_peru") %>% clearGroup("Indigenous Territories")
                     }else{
                     leafletProxy("map_peru") %>% clearGroup("Indigenous Territories") %>% 
@@ -120,7 +129,7 @@ server <- function(input, output) {
                                 group = "Indigenous Territories"
                                 )
                     }})
-           observe({if(!(6 %in% input$checkGroup)){
+           observe({if(!(7 %in% input$checkGroup)){
                     leafletProxy("map_peru") %>% clearGroup("Former Protected Areas (PADDD)")
                     }else{
                     leafletProxy("map_peru") %>% clearGroup("Former Protected Areas (PADDD)") %>% 
@@ -128,15 +137,6 @@ server <- function(input, output) {
                                 fill = TRUE, fillColor = "red", fillOpacity = .3,
                                 popup = ~as.character(padddcontent),
                                 group = "Former Protected Areas (PADDD)"
-                                )
-                    }})
-           observe({if(!(7 %in% input$checkGroup)){
-                    leafletProxy("map_peru") %>% clearGroup("Long-term Risk Forests")
-                    }else{
-                    leafletProxy("map_peru") %>% clearGroup("Long-term Risk Forests") %>% 
-                    addPolygons(data = longtermrisk, color = "white", weight = 0,
-                                fill = TRUE, fillColor = "papayawhip", fillOpacity = .6,
-                                group = "Long-term Risk Forests"
                                 )
                     }})
            observe({if(!(8 %in% input$checkGroup)){

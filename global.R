@@ -43,7 +43,7 @@ make_peru_map <- function(){
                                           group= "Esri World Imagery") %>%
                          addMiniMap(zoomLevelOffset = -4) %>% # Add minimap for reference
                          addScaleBar() %>% # Add scale bar
-                         setView(lng = -71.622, lat = -9.0, zoom=5) 
+                         setView(lng = -71.622, lat = -9.0, zoom = 7) 
 
                  return(pmap)
                  }
