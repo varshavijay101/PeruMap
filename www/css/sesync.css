@@ -140,15 +140,16 @@ body {
 }
 .footer-logo img {
     padding-top: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     padding-right: 40px;
 }
 .copyright {
     padding-top: 10px;
-    text-align: right;
+    text-align: left;
+    padding-right: 40px;
 }
 h1, h2 {
-    color: #3c799f;
+    color: #FFFFFF;
     font-family: 'proxima_nova_rgbold';
     letter-spacing: 0;
     line-height: 1;
