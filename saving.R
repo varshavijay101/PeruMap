@@ -3,7 +3,7 @@
 ### save shapefiles as geojson objects
 #########################################
 ### load libraries
-library(rmapshaper) ; library(geojsonio) ; library (sf) ; library(raster)
+library(rmapshaper) ; library(geojsonio) ; library (sf) 
 
 ### load files
 deforestoilpalm <- st_read('/nfs/vvijay-data/leafletperu/deforestoilpalmWGS.shp')
