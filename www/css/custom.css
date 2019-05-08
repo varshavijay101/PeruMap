@@ -1,5 +1,4 @@
 body {
-    height: 100%;
     background: #FFF;
 }
 
@@ -9,24 +8,14 @@ body {
 
 .main-content {
     padding: 0;
-    height: 100%;
 }
 
 .main-content .container-fluid {
     padding: 0;
-    height: 100%;
 }
 
 .navbar {
     margin-bottom: 0;
+    padding-left: 20px;
 }
 
-.tab-content{
-    position: fixed;
-    top: 41px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    padding: 0;
-}

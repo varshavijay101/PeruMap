@@ -7,7 +7,7 @@ library(shiny) ; library(leaflet)
 
 # Set up your panels for the UI
 tabpan_peru <- tabPanel(title = "Peru",
-                        div(class = "tab-content", tags$head(includeCSS("./www/css/custom.css"))),
+                        div(class = "outer", tags$head(includeCSS("styles.css"))),
                         leafletOutput(outputId = "map_peru", width = "100%", height = "100%") , # 
                         absolutePanel(top = 240, right = 5, left = "auto", draggable = TRUE, fixed = TRUE,
                                       width = 330, height = "auto",
