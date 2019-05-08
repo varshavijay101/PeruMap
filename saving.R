@@ -25,7 +25,7 @@ adminperu <- st_read('/nfs/vvijay-data/leafletperu/Departamento.shp')
 
 
 ### simplify files
-deforestoilpalm
+deforestoilpalm %>%
   rmapshaper::ms_simplify(keep = 0.05, keep_shapes = TRUE) %>%
   st_write("geojsons/deforestoilpalm.geojson")
 
