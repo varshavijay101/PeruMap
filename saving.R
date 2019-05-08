@@ -23,6 +23,7 @@ ecoregions <- sf::st_cast(ecoregions, "POLYGON")
 
 adminperu <- st_read('/nfs/vvijay-data/leafletperu/Departamento.shp')
 
+if(!fs::dir_exists("geojsons")){fs::dir_create("geojsons")}
 
 ### simplify files
 deforestoilpalm %>%
