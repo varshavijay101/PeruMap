@@ -6,7 +6,7 @@
 library(rmapshaper) ; library(geojsonio) ; library (sf) ; library(raster)
 
 ### load files
-deforestoilpalm <- raster('/nfs/vvijay-data/leafletperu/deforestoilpalmWGS.shp')
+deforestoilpalm <- st_read('/nfs/vvijay-data/leafletperu/deforestoilpalmWGS.shp')
 
 longtermrisk <- st_read('/nfs/vvijay-data/leafletperu/riskmapbinaryMULTIPART.shp')
 
@@ -25,7 +25,7 @@ adminperu <- st_read('/nfs/vvijay-data/leafletperu/Departamento.shp')
 
 
 ### simplify files
-deforestoilpalm
+deforestoilpalm %>%
   rmapshaper::ms_simplify(keep = 0.05, keep_shapes = TRUE) %>%
   st_write("geojsons/deforestoilpalm.geojson")
 
