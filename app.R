@@ -5,28 +5,27 @@
 
 library(shiny) ; library(leaflet) 
 
-#source("global.R")
-
 # Set up your panels for the UI
-tabpan_peru <- tabPanel(title = "Peru",
-                        leafletOutput(outputId = "map_peru", width = "100%", height = "72vh") ,
-                        absolutePanel(top = 240, right = 5, left = "auto", draggable = TRUE, fixed = TRUE,
-                                      width = 330, height = "auto",
-                                      checkboxGroupInput("checkGroup", label = h4(tags$span("Data Layers", style = "color: white;")),
-                                                         choiceNames = list(tags$span("Eco Regions", style = "color: white;"),
-                                                                            tags$span("Long-term Risk Forests", style = "color: white;"),
-                                                                            tags$span("Administrative Regions", style = "color: white;"),
-                                                                            tags$span("Oil Palm Deforestation", style = "color: white;"),
-                                                                            tags$span("Protected Areas", style = "color: white;"),
-                                                                            tags$span("Indigenous Territories", style = "color: white;"),
-                                                                            tags$span("Former Protected Areas (PADDD)", style = "color: white;"),
-                                                                            tags$span("Short-term Risk Forests", style = "color: white;")
-                                                                            ),
-                                                         choiceValues = c(1, 2, 3, 4, 5, 6, 7, 8),
-                                                         selected = c(3)
-                                                         )
-                                      )
-                        )
+tabpan_peru <- tabPanel(
+    title = "Peru",
+    leafletOutput(outputId = "map_peru", width = "100%", height = "72vh") ,
+    absolutePanel(top = 240, right = 5, left = "auto", draggable = TRUE, fixed = TRUE,
+                  width = 330, height = "auto",
+                  checkboxGroupInput("checkGroup", label = h4("Data Layers"),
+                                     choiceNames = list("Eco Regions",
+                                                        "Long-term Risk Forests",
+                                                        "Administrative Regions",
+                                                        "Oil Palm Deforestation",
+                                                        "Protected Areas",
+                                                        "Indigenous Territories",
+                                                        "Former Protected Areas (PADDD)",
+                                                        "Short-term Risk Forests"
+                                                        ),
+                                     choiceValues = c(1, 2, 3, 4, 5, 6, 7, 8),
+                                     selected = c(3)
+                                     )
+                  )
+)
 
 # tabpan_globe <- tabPanel(title = "Global",
 #                          leafletOutput(outputId = "map_globe", width = "100%", height = "72vh"),
@@ -60,7 +59,8 @@ tabpan_info <- tabPanel("More Information",
 ui <- htmlTemplate("template.html", content = navbarPage(title = "Oil Palm Deforestation Mapping",
                                                          tabpan_peru, 
                                                          # tabpan_globe, 
-                                                         tabpan_info
+                                                         tabpan_info,
+                                                         includeCSS("www/css/custom.css")
                                                          )
                    )
 

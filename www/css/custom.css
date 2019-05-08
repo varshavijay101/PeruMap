@@ -1,0 +1,20 @@
+body {
+    background: #fff;
+}
+
+.shiny-input-checkboxgroup {
+    color: white;
+}
+
+.main-content {
+    padding: 0;
+}
+
+.main-content .container-fluid {
+    padding: 0;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
