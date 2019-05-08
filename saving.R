@@ -6,7 +6,7 @@
 library(rmapshaper) ; library(geojsonio) ; library (sf) ; library(raster)
 
 ### load files
-deforestoilpalm <- raster('/nfs/vvijay-data/leafletperu/deforestoilpalmWGS.shp')
+deforestoilpalm <- st_read('/nfs/vvijay-data/leafletperu/deforestoilpalmWGS.shp')
 
 longtermrisk <- st_read('/nfs/vvijay-data/leafletperu/riskmapbinaryMULTIPART.shp')
 
