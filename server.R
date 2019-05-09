@@ -3,7 +3,9 @@
 ### Started by REBlake 5/2/2019
 ########################################################
 
-library(shiny) ; library(leaflet) 
+# library(shiny) ; library(leaflet) 
+
+source("dependencies.R")
 
 ### Server  
 server <- function(input, output) {

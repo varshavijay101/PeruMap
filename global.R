@@ -3,9 +3,8 @@
 ####################################
 
 ## Load libraries
-library(leaflet) ; library(webshot) ; library(sf) ; library(raster) ; 
-library(dplyr) ; library(htmlwidgets) ; library(htmltools) ; library(fs) ;
-library(jsonlite)
+# library(leaflet) ; library(sf) ; library(dplyr) ; 
+# library(htmlwidgets) ; library(htmltools) ; library(fs) 
 
 ## Load data layers
 deforestoilpalm <- st_read("geojsons/deforestoilpalm.geojson")

@@ -3,7 +3,7 @@
 ### Started by REBlake 5/2/2019
 ########################################################
 
-library(shiny) ; library(leaflet) 
+# library(shiny) ; library(leaflet) 
 
 # Set up your panels for the UI
 tabpan_peru <- tabPanel(title = p("Peru Map", style = "font-size: 18px;"),
