@@ -5,23 +5,23 @@
 ## Load libraries
 # library(leaflet) ; library(sf) ; library(dplyr) ; 
 # library(htmlwidgets) ; library(htmltools) ; library(fs) 
-
+data_dir <- "/nfs/vvijay-public-data/PeruMap"
 ## Load data layers
-deforestoilpalm <- st_read("geojsons/deforestoilpalm.geojson")
+deforestoilpalm <- st_read(file.path(data_dir, "geojsons/deforestoilpalm.geojson"))
 
-longtermrisk <- st_read("geojsons/longtermrisk.geojson")
+longtermrisk <- st_read(file.path(data_dir, "geojsons/longtermrisk.geojson"))
 
-shorttermrisk <- st_read("geojsons/shorttermrisk.geojson")
+shorttermrisk <- st_read(file.path(data_dir, "geojsons/shorttermrisk.geojson"))
 
-pa <- st_read("geojsons/pa.geojson")
+pa <- st_read(file.path(data_dir,"geojsons/pa.geojson"))
 
-indigenous <- st_read("geojsons/indigenous_nonsimple.geojson")
+indigenous <- st_read(file.path(data_dir, "geojsons/indigenous_nonsimple.geojson"))
 
-paddd <- st_read("geojsons/paddd.geojson")
+paddd <- st_read(file.path(data_dir, "geojsons/paddd.geojson"))
 
-ecoregions <- st_read("geojsons/ecoregions.geojson")
+ecoregions <- st_read(file.path(data_dir, "geojsons/ecoregions.geojson"))
 
-adminperu <- st_read("geojsons/admin.geojson")
+adminperu <- st_read(file.path(data_dir, "geojsons/admin.geojson"))
 
 ## Add palettes and popups
 pal <- colorNumeric("Oranges", deforestoilpalm$gridcode)

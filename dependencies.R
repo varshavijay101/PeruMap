@@ -1,6 +1,6 @@
 # List the package and version as below
 dependencies <- read.csv(textConnection("
-                Package,     Min.Version, repo
+                Package,     Min.Version
                 shiny,       1.3.2,
                 leaflet,     2.0.2,
                 sf,          0.7-4,
@@ -33,4 +33,6 @@ lapply(github$repo, devtools::install_github)
 
 # Require dependencies [optional]
 lapply(dependencies$Package, require, character.only=TRUE)
+
+
 
